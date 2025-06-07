@@ -1,0 +1,11 @@
+# Formatting
+.ruff_cache
+
+# SLURM log files
+log/
+
+# Apptainer/Singularity images
+apptainer/*.sif
+
+# Cache
+nilearn_cache/
