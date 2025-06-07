@@ -85,11 +85,11 @@ data_directory/
 ├── sub-001/
 │   └── task_name/
 │       └── fixed_effects/
-│           └── contrast_name*fixed-effects.nii.gz
+│           └── *contrast_name*fixed-effects.nii.gz
 ├── sub-002/
 │   └── task_name/
 │       └── fixed_effects/
-│           └── contrast_name*fixed-effects.nii.gz
+│           └── *contrast_name*fixed-effects.nii.gz
 ...
 ```
 
