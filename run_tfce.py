@@ -27,7 +27,7 @@ from nilearn.maskers import NiftiMapsMasker
 from nilearn.glm.second_level import non_parametric_inference
 from nilearn.plotting import plot_stat_map
 from nilearn.image import resample_to_img, load_img
-from nilearn.datasets import fetch_icbm152_2009
+from templateflow import api as tf
 
 # Suppress warnings for cleaner output
 warnings.filterwarnings("ignore")
@@ -244,16 +244,13 @@ class MNIBackgroundFetcher:
 
     def __init__(self, logger: logging.Logger):
         self.logger = logger
-        self._mni_data = None
         self._mni_bg = None
 
     def fetch_background(self):
-        """Fetch MNI152 background image."""
-        if self._mni_data is None:
-            self.logger.info("Fetching MNI152 background image...")
-            self._mni_data = fetch_icbm152_2009()
-            self._mni_bg = self._mni_data["t1"]
-            self.logger.info("MNI152 background image fetched successfully")
+        """Fetch MNI152NLin2009cAsym background image."""
+        self.logger.info("Fetching MNI152NLin2009cAsym background image...")
+        self._mni_bg = tf.get("MNI152NLin2009cAsym", resolution=2, suffix="T1w", desc=None) 
+        self.logger.info("MNI152NLin2009cAsym background image fetched successfully")
 
         return self._mni_bg
 
