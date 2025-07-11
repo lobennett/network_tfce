@@ -146,6 +146,12 @@ class DataProcessor:
             nib.save(results["t"], str(t_output_path))
             self.logger.info(f"T-map saved to: {t_output_path}")
 
+            # Save logp_max_tfce map as well
+            logp_output_filename = f"logp_max_tfce_{self.task_name}_{self.contrast_name}.nii.gz"
+            logp_output_path = self.output_dir / logp_output_filename
+            nib.save(results["logp_max_tfce"], str(logp_output_path))
+            self.logger.info(f"logp_max_tfce map saved to: {logp_output_path}")
+
             self.logger.info("TFCE analysis completed successfully")
 
         except Exception as e:
@@ -205,6 +211,31 @@ class DataProcessor:
             tfce_plot.close()
         except Exception as e:
             self.logger.error(f"Error saving TFCE plot: {e}")
+
+        # Save the TFCE logmax p map as PNG
+        try:
+            logp_plot_title = f"Second Level Analysis: {self.task_name} - tfce logmaxp map (contrast: {self.contrast_name})"
+            logp_plot = plot_stat_map(
+                results["logp_max_tfce"],  
+                title=logp_plot_title,
+                threshold=0,
+                cmap="cold_hot",
+                bg_img=mni_bg,
+            )
+
+            # Create filename
+            logp_png_filename = f"logp_plot_{self.task_name}_{self.contrast_name}.png"
+            logp_png_save_path = self.output_dir / logp_png_filename
+
+            # Save the plot
+            logp_plot.savefig(str(logp_png_save_path))
+            self.logger.info(f"log(p) plot saved to: {logp_png_save_path}")
+
+            # Close the plot to free up memory
+            logp_plot.close()
+        except Exception as e:
+            self.logger.error(f"Error saving log(p) plot: {e}")
+
 
 
 class FileGlobber:
